@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
 
     // 점프를 했는지 하지 않았는지
     private bool _isjumped;
+    // 땅을 밟고 있는지 아닌지
+    private bool _isRoaded;
 
     private Vector3 _userInputVec;
 
@@ -36,7 +38,7 @@ public class PlayerController : MonoBehaviour
     {
         PlayerMove();
 
-        if (_isjumped)
+        if (_isjumped && _isRoaded)
         {
             PlayerJump();
         }
@@ -61,5 +63,25 @@ public class PlayerController : MonoBehaviour
         _rigid.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
 
         _isjumped = false;
+        _isRoaded = false;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Road"))
+        {
+            Debug.Log("길길길");
+            _isRoaded = true;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        
     }
 }
