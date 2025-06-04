@@ -46,7 +46,27 @@ public class TreeObjectSpawn : MonoBehaviour
 
     private void CreateNotRound()
     {
+        // ·£´ý »ý¼º ÀÎµ¦½º
+        int creatRandomIndex = 0;
 
+        Vector3 offsetPos = Vector3.zero;
+
+        for (int i = minValue; i < maxValue; ++i)
+        {
+            if (i < -5 || i > 5)
+            {
+                creatRandomIndex = Random.Range(0, AllRoadObjectList.Count);
+
+                CloneObject = GameObject.Instantiate(AllRoadObjectList[creatRandomIndex].gameObject);
+                CloneObject.SetActive(true);
+
+                offsetPos.Set(i, 1f, 0f);
+
+                CloneObject.transform.SetParent(this.transform);
+
+                CloneObject.transform.localPosition = offsetPos;
+            }
+        }
     }
 
     private void CreateNotBack()
@@ -55,8 +75,6 @@ public class TreeObjectSpawn : MonoBehaviour
         int creatRandomIndex = 0;
 
         Vector3 offsetPos = Vector3.zero;
-
-
 
         for (int i = minValue; i < maxValue; ++i)
         {

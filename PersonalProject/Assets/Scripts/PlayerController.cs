@@ -95,6 +95,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private VehicleController raftObj = null;
     [SerializeField] private Transform raftPos = null;
 
+    public MapSpawn MapSpawnManager;
     Vector3 raftOffsetPos = Vector3.zero;
 
     public E_DirectionPlayer moveDirection = E_DirectionPlayer.Up;
@@ -104,6 +105,8 @@ public class PlayerController : MonoBehaviour
     {
         string[] moveCheckPlayer = new string[] { "Tree" };
         treeLayerMask = LayerMask.GetMask(moveCheckPlayer);
+
+        MapSpawnManager.CreateMap((int)this.transform.position.z);
     }
 
     private void Update()
@@ -176,7 +179,7 @@ public class PlayerController : MonoBehaviour
 
     private void PlayerInput(E_DirectionPlayer e_DirectionPlayer)
     {
-        //if (!IsCheckMove(e_DirectionPlayer)) { return; }
+        if (!IsCheckMove(e_DirectionPlayer)) { return; }
 
         Vector3 playerOffsetPos = Vector3.zero;
 
@@ -201,6 +204,8 @@ public class PlayerController : MonoBehaviour
         this.transform.position += playerOffsetPos;
 
         raftOffsetPos += playerOffsetPos;
+
+        MapSpawnManager.CreateMap((int)this.transform.position.z);
     }
 
     private void OnTriggerEnter(Collider other)
