@@ -15,6 +15,10 @@ public class MapSpawn : MonoBehaviour
     private Transform moveTranform;
     private int LastLinePos = 0;
 
+    private int minLineValue = 0;
+    private int DeleteCountLine = 10;
+    private int DeleteCountBackLine = 30;
+
     [SerializeField] int minValueZ;
     [SerializeField] int maxValueZ;
 
@@ -29,11 +33,12 @@ public class MapSpawn : MonoBehaviour
     // 플레이어가 움직이는 방향에 맞춰 조정
     public void CreateMap(int playerPosZ)
     {
-        roadType = RoadType.Lawn;
 
         // 처음 라인 생성
         if (MapList.Count <= 0)
         {
+            roadType = RoadType.Lawn;
+            minLineValue = minValueZ;
             int i = 0;
             for (i = minValueZ; i < maxValueZ; ++i)
             {
@@ -103,6 +108,29 @@ public class MapSpawn : MonoBehaviour
         }
 
         // 삭제
+        if (playerPosZ - DeleteCountBackLine > minLineValue - DeleteCountLine)
+        {
+            int count = minLineValue + DeleteCountLine;
+
+            for (int i = minLineValue; i < count; ++i)
+            {
+                RemoveLine(i);
+            }
+
+            minLineValue += DeleteCountLine;
+        }
+    }
+
+    private void RemoveLine(int playerPosZ)
+    {
+        if (MapDic.ContainsKey(playerPosZ))
+        {
+            Transform transformObj = MapDic[playerPosZ];
+            GameObject.Destroy(transformObj.gameObject);
+            
+            MapList.Remove(transformObj);
+            MapDic.Remove(playerPosZ);
+        }
     }
 
     private int GroupRoadLine(int playerPosZ)

@@ -179,7 +179,7 @@ public class PlayerController : MonoBehaviour
 
     private void PlayerInput(E_DirectionPlayer e_DirectionPlayer)
     {
-        if (!IsCheckMove(e_DirectionPlayer)) { return; }
+        //if (!IsCheckMove(e_DirectionPlayer)) { return; }
 
         Vector3 playerOffsetPos = Vector3.zero;
 
